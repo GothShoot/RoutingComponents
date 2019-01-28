@@ -1,8 +1,8 @@
 <?php
 
-namespace Module\RouterModule\Services;
+namespace Alzundaz\Router\Services;
 
-use Module\CoreModule\Services\ConfigLoader;
+use Alzundaz\NitroPHP\Services\ConfigLoader;
 use Module\ProfilerModule\Services\Profiler;
 
 class Router
