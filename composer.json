@@ -1,0 +1,17 @@
+{
+    "name": "alzundaz/routingcomponents",
+    "description": "Router for NitroPHP",
+    "type": "nitrophp-components",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "GothShoot",
+            "email": "romuald.mocq@yahoo.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "alzundaz/nitrophp": "*"
+    }
+}
