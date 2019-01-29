@@ -2,7 +2,7 @@
 
 namespace Alzundaz\Router\Services;
 
-use Alzundaz\NitroPHP\Services\ConfigLoader;
+use Alzundaz\NitroPHP\Services\ConfigHandler;
 use Module\ProfilerModule\Services\Profiler;
 
 class Router
@@ -16,13 +16,13 @@ class Router
 
     private function loadRoute(bool $force = null):array
     {
-        $configLoader = ConfigLoader::getInstance();
-        if( !file_exists(ROOT_DIR.'/Var/Cache/App/route.json') || $force || $configLoader->getAppConf()['dev'] ){
-            $modules = $configLoader->getModule();
+        $ConfigHandler = ConfigHandler::getInstance();
+        if( !file_exists(ROOT_DIR.'/Var/Cache/App/route.json') || $force || $ConfigHandler->getAppConf()['dev'] ){
+            $modules = $ConfigHandler->getModule();
             $routes = [];
             foreach($modules as $module){
                 if( $module['enabled'] && file_exists(ROOT_DIR.'/Module/'.$module['name'].'/Config/Routes/') ){
-                    $routes = array_merge($routes, $configLoader->loadJsonConfig(ROOT_DIR.'/Module/'.$module['name'].'/Config/Routes/'));
+                    $routes = array_merge($routes, $ConfigHandler->loadJsonConfig(ROOT_DIR.'/Module/'.$module['name'].'/Config/Routes/'));
                 }
             }
             file_put_contents(ROOT_DIR.'/Var/Cache/App/route.json', json_encode($routes));
