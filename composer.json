@@ -13,5 +13,10 @@
     "require": {
         "php": "^7.1",
         "alzundaz/nitrophp": "*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Alzundaz\\Router\\" : ""
+        }
     }
 }
