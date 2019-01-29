@@ -28,7 +28,7 @@ class Router
                     $routes = array_merge($routes, $ConfigHandler->loadJsonConfig(ROOT_DIR.'/Module/'.$module['name'].'/Config/Routes/'));
                 }
             }
-            $type = $cacheHandler->setCache('App/route', $route);
+            $type = $cacheHandler->setCache('App/route', $routes);
         }
         return $cacheHandler->getCache('App/route', $type);
     }
