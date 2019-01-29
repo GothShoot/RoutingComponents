@@ -19,7 +19,7 @@ class Router
     {
         $ConfigHandler = ConfigHandler::getInstance();
         $cacheHandler = CacheHandler::getInstance();
-        $type = $CacheHandler->cacheExists('App/route');
+        $type = $cacheHandler->cacheExists('App/route');
         if( !$type || $ConfigHandler->getAppConf()['dev'] ){
             $modules = $ConfigHandler->getModule();
             $routes = [];
