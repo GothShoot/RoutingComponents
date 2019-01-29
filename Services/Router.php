@@ -4,6 +4,7 @@ namespace Alzundaz\Router\Services;
 
 use Alzundaz\NitroPHP\Services\ConfigHandler;
 use Module\ProfilerModule\Services\Profiler;
+use Alzundaz\NitroPHP\Services\CacheHandler;
 
 class Router
 {
@@ -14,10 +15,12 @@ class Router
         $this->start = microtime(true);
     }
 
-    private function loadRoute(bool $force = null):array
+    private function loadRoute():array
     {
         $ConfigHandler = ConfigHandler::getInstance();
-        if( !file_exists(ROOT_DIR.'/Var/Cache/App/route.json') || $force || $ConfigHandler->getAppConf()['dev'] ){
+        $cacheHandler = CacheHandler::getInstance();
+        $type = $CacheHandler->cacheExists('App/route');
+        if( !$type || $ConfigHandler->getAppConf()['dev'] ){
             $modules = $ConfigHandler->getModule();
             $routes = [];
             foreach($modules as $module){
@@ -25,9 +28,9 @@ class Router
                     $routes = array_merge($routes, $ConfigHandler->loadJsonConfig(ROOT_DIR.'/Module/'.$module['name'].'/Config/Routes/'));
                 }
             }
-            file_put_contents(ROOT_DIR.'/Var/Cache/App/route.json', json_encode($routes));
+            $type = $this->CacheHandler->setCache('App/route', $route);
         }
-        return json_decode(file_get_contents(ROOT_DIR.'/Var/Cache/App/route.json'), true);
+        return $this->CacheHandler->getCache('App/route', $type);
     }
 
     private function parse(string $url):?array
