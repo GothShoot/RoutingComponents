@@ -47,7 +47,7 @@ class Router
     public function getController()
     {
         $start = microtime(true);
-        $route = $this->parse($_GET['url']);
+        $route = $this->parse($_SERVER['REQUEST_URI']);
         if($route){
             $class = 'Module\\'.$route['module'].'\Controller\\'.$route['controller']; $methode = $route['methode'];
             $controller = new $class();
