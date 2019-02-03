@@ -33,27 +33,29 @@ class Router
         return $cacheHandler->getCache('App/route', $type);
     }
 
-    private function parse(string $url):?array
-    {
-        $routes = $this->loadRoute();
-        foreach($routes as $route){
-            if($route['path'] == $url) {
-                return $route;
-            }
-        }
-        return null;
-    }
-
     public function getController()
     {
         $start = microtime(true);
-        $route = $this->parse($_SERVER['REQUEST_URI']);
+        $routes = $this->loadRoute();
+		$url = str_replace('/NitroPHP/Public', '', $_SERVER['REQUEST_URI']);
+        $route = null;
+        $args = [];
+
+        foreach($routes as $route){
+            $route['path'] = str_replace('/', '\/', $route['path']);
+			if (preg_match( '#^'.$route['path'].'$#', $url, $args ) ) {
+                break;
+            }
+        }
+
         if($route){
+            array_shift($args);
+            var_dump($args);
             $class = 'Module\\'.$route['module'].'\Controller\\'.$route['controller']; $methode = $route['methode'];
-            $controller = new $class();
             $end = microtime(true);
             $controllerstart = microtime(true);
-            $controller->$methode();
+            $controller = new $class();
+            $controller->$methode(...$args);
             $controllerend = microtime(true);
         } else {
             $end = microtime(true);
