@@ -37,7 +37,7 @@ class Router
     {
         $start = microtime(true);
         $routes = $this->loadRoute();
-		$url = str_replace('/NitroPHP/Public', '', $_SERVER['REQUEST_URI']);
+		$url = preg_replace('#\/([a-zA-Z0-9\/]+)\/Public#', '', $_SERVER['REQUEST_URI']);
         $route = null;
         $args = [];
 
@@ -50,7 +50,6 @@ class Router
 
         if($route){
             array_shift($args);
-            var_dump($args);
             $class = 'Module\\'.$route['module'].'\Controller\\'.$route['controller']; $methode = $route['methode'];
             $end = microtime(true);
             $controllerstart = microtime(true);
