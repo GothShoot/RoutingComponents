@@ -58,7 +58,9 @@ class Router
             $controllerend = microtime(true);
         } else {
             $end = microtime(true);
-            header('Location: /error', true, 404);
+            Profiler::getInstance()->setError('no matched route for "'.$url.'"');
+            $controller = new Module\AppModule\Controller\DefaultController();
+            $controller->error();
         }
         Profiler::getInstance()->setTime(['name'=>'Router', 'start'=>$start, 'end'=>$end]);
         Profiler::getInstance()->setTime(['name'=>$class.'::'.$methode, 'start'=>$controllerstart, 'end'=>$controllerend]);
